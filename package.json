@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \\\"src/**/*.ts\\\" \\\"libs/entity/test/**/*.ts\\\" \\\"libs/**/*.ts\\\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -82,7 +82,8 @@
     ],
     "moduleNameMapper": {
       "^@app/entity(|/.*)$": "<rootDir>/libs/entity/src/$1",
-      "^@app/env(|/.*)$": "<rootDir>/libs/env/src/$1"
+      "^@app/env(|/.*)$": "<rootDir>/libs/env/src/$1",
+      "^@app/web-common(|/.*)$": "<rootDir>/libs/web-common/src/$1"
     }
   }
 }
