@@ -3,7 +3,7 @@ services:
     image: postgres:13
     ports:
       - '5437:5432'
-    container_name: test-pg
+    container_name: geul-db
     environment:
       - POSTGRES_DB=test
       - POSTGRES_USER=test
