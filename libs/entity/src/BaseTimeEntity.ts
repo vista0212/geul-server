@@ -9,6 +9,10 @@ export abstract class BaseTimeEntity {
   @Property({ type: LocalDateTimeType, onCreate: () => LocalDateTime.now() })
   createdAt: LocalDateTime;
 
-  @Property({ type: LocalDateTimeType, onUpdate: () => LocalDateTime.now() })
+  @Property({
+    type: LocalDateTimeType,
+    onCreate: () => LocalDateTime.now(),
+    onUpdate: () => LocalDateTime.now(),
+  })
   updatedAt: LocalDateTime;
 }
