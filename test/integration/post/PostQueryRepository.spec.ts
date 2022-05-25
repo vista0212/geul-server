@@ -20,7 +20,7 @@ describe('PostQueryRepository (int)', () => {
     postQueryRepository = module.get<PostQueryRepository>(PostQueryRepository);
   });
 
-  beforeEach(async () => await orm.getSchemaGenerator().refreshDatabase());
+  beforeEach(async () => await orm.getSchemaGenerator().clearDatabase());
 
   afterAll(async () => orm.close(true));
 

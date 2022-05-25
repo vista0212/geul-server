@@ -16,7 +16,7 @@ describe('DB test Connection', () => {
     orm = module.get<MikroORM>(MikroORM);
   });
 
-  beforeEach(async () => await orm.getSchemaGenerator().refreshDatabase());
+  beforeEach(async () => await orm.getSchemaGenerator().clearDatabase());
 
   afterAll(async () => await orm.close(true));
 
