@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import mikroOrmConfig from '@app/entity/config/mikro-orm.config';
-import { PostModule } from '@app/entity/post/PostModule';
+import { PostAppModule } from './post/PostAppModule';
 
 @Module({
-  imports: [MikroOrmModule.forRoot(mikroOrmConfig), PostModule],
+  imports: [MikroOrmModule.forRoot(mikroOrmConfig), PostAppModule],
 })
 export class AppModule {}
