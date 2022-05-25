@@ -17,8 +17,7 @@ export function getMikroOrmTestModule(): DynamicModule {
       max: 5,
     },
     allowGlobalContext: true,
-    entities: ['libs/entity/src/**/*.entity{.ts,.js}'],
-    entitiesTs: ['libs/entity/src/**/*.entity{.ts,.js}'],
+    autoLoadEntities: true,
     schemaGenerator: {
       disableForeignKeys: true,
       createForeignKeyConstraints: false,

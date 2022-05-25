@@ -2,6 +2,7 @@ import { MikroORM } from '@mikro-orm/core';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { Test } from '@nestjs/testing';
 import { getMikroOrmTestModule } from '@app/entity/config/getMikroOrmTestModule';
+import { PostModule } from '@app/entity/post/PostModule';
 
 describe('DB test Connection', () => {
   let entityManager: EntityManager;
@@ -9,7 +10,7 @@ describe('DB test Connection', () => {
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
-      imports: [getMikroOrmTestModule()],
+      imports: [getMikroOrmTestModule(), PostModule],
     }).compile();
 
     entityManager = module.get<EntityManager>(EntityManager);
