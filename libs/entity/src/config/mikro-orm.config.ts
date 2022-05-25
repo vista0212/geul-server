@@ -15,14 +15,6 @@ const config: MikroOrmModuleOptions = {
     max: 5,
   },
   autoLoadEntities: true,
-  entities: [
-    'libs/entity/src/**/*.entity.ts',
-    'libs/entity/src/BaseTimeEntity.ts',
-  ],
-  entitiesTs: [
-    'libs/entity/src/**/*.entity.ts',
-    'libs/entity/src/BaseTimeEntity.ts',
-  ],
   schemaGenerator: {
     disableForeignKeys: true,
     createForeignKeyConstraints: false,

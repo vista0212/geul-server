@@ -17,6 +17,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/env/tsconfig.lib.json"
       }
+    },
+    "web-common": {
+      "type": "library",
+      "root": "libs/web-common",
+      "entryFile": "index",
+      "sourceRoot": "libs/web-common/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/web-common/tsconfig.lib.json"
+      }
     }
   },
   "compilerOptions": {

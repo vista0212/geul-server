@@ -29,6 +29,12 @@
       ],
       "@app/env/*": [
         "libs/env/src/*"
+      ],
+      "@app/web-common": [
+        "libs/web-common/src"
+      ],
+      "@app/web-common/*": [
+        "libs/web-common/src/*"
       ]
     }
   }
