@@ -18,6 +18,7 @@ describe('PostController (e2e)', () => {
     orm = module.get<MikroORM>(MikroORM);
     setNestApp(app);
     await app.init();
+    await orm.getSchemaGenerator().updateSchema();
   });
 
   beforeEach(async () => await orm.getSchemaGenerator().clearDatabase());

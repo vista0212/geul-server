@@ -18,11 +18,12 @@ describe('PostQueryRepository (int)', () => {
 
     orm = module.get<MikroORM>(MikroORM);
     postQueryRepository = module.get<PostQueryRepository>(PostQueryRepository);
+    await orm.getSchemaGenerator().updateSchema();
   });
 
-  beforeEach(async () => orm.getSchemaGenerator().clearDatabase());
+  beforeEach(async () => await orm.getSchemaGenerator().clearDatabase());
 
-  afterAll(async () => orm.close(true));
+  afterAll(async () => await orm.close(true));
 
   describe('create', () => {
     it('draft 상태의 포스트를 생성한다.', async () => {

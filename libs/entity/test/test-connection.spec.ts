@@ -15,6 +15,7 @@ describe('DB test Connection', () => {
 
     entityManager = module.get<EntityManager>(EntityManager);
     orm = module.get<MikroORM>(MikroORM);
+    await orm.getSchemaGenerator().updateSchema();
   });
 
   beforeEach(async () => await orm.getSchemaGenerator().clearDatabase());
