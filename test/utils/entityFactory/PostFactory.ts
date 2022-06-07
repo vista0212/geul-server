@@ -9,7 +9,7 @@ export class PostFactory extends Factory<Post> {
     return Object.assign(new Post(), {
       title: faker.datatype.string(),
       body: faker.datatype.string(),
-      status: faker.random.arrayElement(Object.values(PostStatus)),
+      status: faker.helpers.arrayElement(Object.values(PostStatus)),
       viewCount: 0,
       ...entity,
     } as Post);
