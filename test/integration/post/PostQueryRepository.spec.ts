@@ -5,10 +5,14 @@ import { Post } from '@app/entity/post/Post.entity';
 import { PostStatus } from '@app/entity/post/type/PostType';
 import { PostModule } from '@app/entity/post/PostModule';
 import { getMikroOrmTestModule } from '@app/entity/config/getMikroOrmTestModule';
+import { PostFactory } from '../../utils/entityFactory/PostFactory';
+import { PostFindRequest } from '../../../src/post/dto/PostFindRequest';
+import { LocalDateTime } from '@js-joda/core';
 
 describe('PostQueryRepository (int)', () => {
   let postQueryRepository: PostQueryRepository;
   let orm: MikroORM;
+  let postFactory: PostFactory;
 
   beforeAll(async () => {
     const module = await Test.createTestingModule({
@@ -17,6 +21,7 @@ describe('PostQueryRepository (int)', () => {
     }).compile();
 
     orm = module.get<MikroORM>(MikroORM);
+    postFactory = new PostFactory(orm.em);
     postQueryRepository = module.get<PostQueryRepository>(PostQueryRepository);
     await orm.getSchemaGenerator().updateSchema();
   });
@@ -24,6 +29,83 @@ describe('PostQueryRepository (int)', () => {
   beforeEach(async () => await orm.getSchemaGenerator().clearDatabase());
 
   afterAll(async () => await orm.close(true));
+
+  describe('find', () => {
+    it('published 상태의 포스트들을 조회한다.', async () => {
+      // given
+      await postFactory.createOne({
+        status: PostStatus.PUBLISHED,
+        publishedAt: LocalDateTime.now(),
+      });
+
+      // when
+      const result = await postQueryRepository.find(
+        new PostFindRequest(),
+        LocalDateTime.now(),
+      );
+
+      // then
+      expect(result[0].status).toBe(PostStatus.PUBLISHED);
+    });
+
+    it('published 상태가 아닌 포스트는 조회하지 않는다.', async () => {
+      // given
+      await postFactory.createOne({
+        status: PostStatus.DRAFT,
+        publishedAt: LocalDateTime.now(),
+      });
+
+      // when
+      const result = await postQueryRepository.find(
+        new PostFindRequest(),
+        LocalDateTime.now(),
+      );
+
+      // then
+      expect(result).toHaveLength(0);
+    });
+
+    it('lastId보다 id가 작은 포스트들을 조회한다.', async () => {
+      // given
+      await postFactory.createOne({
+        status: PostStatus.PUBLISHED,
+        publishedAt: LocalDateTime.now(),
+      });
+      await postFactory.createOne({
+        id: 10,
+        status: PostStatus.PUBLISHED,
+        publishedAt: LocalDateTime.now(),
+      });
+      const request = new PostFindRequest();
+      request.lastId = 10;
+
+      // when
+      const result = await postQueryRepository.find(
+        request,
+        LocalDateTime.now(),
+      );
+
+      // then
+      expect(result).toHaveLength(1);
+    });
+    //
+    // it('태그를 포함하는 포스트들을 조회한다.', async () => {
+    //   // given
+    //   await postFactory.createOne({
+    //     status: PostStatus.PUBLISHED,
+    //   });
+    //   await postFactory.createOne({
+    //     id: 10,
+    //     status: PostStatus.PUBLISHED,
+    //   });
+    //
+    //   // when
+    //   const result = await postQueryRepository.find(10);
+    //
+    //   // then
+    //   expect(result).toHaveLength(0);
+    // });
+  });
 
   describe('create', () => {
     it('draft 상태의 포스트를 생성한다.', async () => {
