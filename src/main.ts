@@ -14,9 +14,11 @@ async function bootstrap() {
     .build();
   setNestApp(app);
 
+  app.enableCors();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
 
-  await app.listen(3000);
+  await app.listen(3030);
 }
 bootstrap();
