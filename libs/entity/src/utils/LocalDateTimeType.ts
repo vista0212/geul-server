@@ -1,4 +1,4 @@
-import { convert, LocalDateTime } from '@js-joda/core';
+import { convert, LocalDateTime, nativeJs } from '@js-joda/core';
 import { Type } from '@mikro-orm/core';
 
 export class LocalDateTimeType extends Type<LocalDateTime | null, Date | null> {
@@ -21,6 +21,22 @@ export class LocalDateTimeType extends Type<LocalDateTime | null, Date | null> {
   }
 
   override convertToJSValue(value: LocalDateTime | null): LocalDateTime | null {
-    return value;
+    if (!value) {
+      return null;
+    }
+
+    if (value instanceof LocalDateTime) {
+      return value;
+    }
+
+    if (typeof value === 'number') {
+      return LocalDateTime.from(nativeJs(new Date(value)));
+    }
+
+    return LocalDateTime.from(nativeJs(value));
+  }
+
+  override getColumnType(): string {
+    return `timestamptz`;
   }
 }
