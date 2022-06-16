@@ -5,6 +5,8 @@ import { AppModule } from '../../../src/AppModule';
 import { setNestApp } from '@app/web-common/app/setNestApp';
 import { MikroORM } from '@mikro-orm/core';
 import { PostFactory } from '../../utils/entityFactory/PostFactory';
+import { PostStatus } from '@app/entity/post/type/PostType';
+import { LocalDateTime } from '@js-joda/core';
 
 describe('PostController (e2e)', () => {
   let app: INestApplication;
@@ -27,6 +29,28 @@ describe('PostController (e2e)', () => {
   beforeEach(async () => await orm.getSchemaGenerator().clearDatabase());
 
   afterAll(async () => app.close());
+
+  describe('GET /api/post/:id', () => {
+    it('공개된 포스트를 조회한다.', async () => {
+      const expectTitle = 'test-title';
+      const expectBody = 'test-body';
+      const post = await postFactory.createOne({
+        title: expectTitle,
+        body: expectBody,
+        status: PostStatus.PUBLISH,
+        publishedAt: LocalDateTime.now().minusDays(1),
+      });
+
+      const response = await request(app.getHttpServer()).get(
+        `/api/post/${post.id}`,
+      );
+
+      expect(response.status).toBe(200);
+      expect(response.body.data.id).toBe(post.id);
+      expect(response.body.data.title).toBe(expectTitle);
+      expect(response.body.data.body).toBe(expectBody);
+    });
+  });
 
   describe('GET /api/post', () => {
     it('포스트 목록을 조회한다.', async () => {

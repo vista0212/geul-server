@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { PostCreateRequest } from './dto/PostCreateRequest';
 import { ResponseEntity } from '@app/web-common/res/ResponseEntity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -6,6 +6,8 @@ import { PostService } from './PostService';
 import { PostFindRequest } from './dto/PostFindRequest';
 import { Slice } from '@app/web-common/res/Slice';
 import { PostOneResponse } from './dto/PostOneResponse';
+import { PostFindOnePublishRequest } from './dto/PostFindOnePublishRequest';
+import { PostFindOnePublishResponse } from './dto/PostFindOnePublishResponse';
 
 @Controller('/post')
 @ApiTags('게시글 관련 API')
@@ -49,6 +51,25 @@ export class PostController {
         `error in POST /post: request=${JSON.stringify(request)}`,
         e,
       );
+
+      return ResponseEntity.ERROR_WITH(e.message);
+    }
+  }
+
+  @Get('/:id')
+  @ApiOperation({
+    summary: '특정 게시글 조회 API',
+  })
+  async findOnePublish(
+    @Param() request: PostFindOnePublishRequest,
+  ): Promise<ResponseEntity<string | PostFindOnePublishResponse>> {
+    try {
+      const response = new PostFindOnePublishResponse(
+        await this.postService.findOnePublish(request),
+      );
+      return ResponseEntity.OK_WITH(response);
+    } catch (e) {
+      console.error(`error in GET /post/:id: ${JSON.stringify(request)}`, e);
 
       return ResponseEntity.ERROR_WITH(e.message);
     }
