@@ -12,6 +12,19 @@ export class PostQueryRepository {
     private readonly postRepository: EntityRepository<Post>,
   ) {}
 
+  async findOne(postId: number): Promise<Post> {
+    try {
+      return await this.postRepository.findOne(postId);
+    } catch (e) {
+      console.error(
+        `PostQueryRepository.findOne Exception: postId=${postId}`,
+        e,
+      );
+
+      throw e;
+    }
+  }
+
   async find(request: PostFindRequest, now: LocalDateTime): Promise<Post[]> {
     try {
       return await this.postRepository.find(request.toWhereFilter(now), {
@@ -21,6 +34,7 @@ export class PostQueryRepository {
     } catch (e) {
       console.error(
         `PostQueryRepository.find Exception: ${JSON.stringify(request)}`,
+        e,
       );
 
       throw e;

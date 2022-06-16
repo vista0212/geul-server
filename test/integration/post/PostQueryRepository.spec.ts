@@ -30,6 +30,19 @@ describe('PostQueryRepository (int)', () => {
 
   afterAll(async () => await orm.close(true));
 
+  describe('findOne', () => {
+    it('id에 해당하는 포스트를 조회한다.', async () => {
+      // given
+      const post = await postFactory.createOne();
+
+      // when
+      const result = await postQueryRepository.findOne(post.id);
+
+      // then
+      expect(result.id).toBe(post.id);
+    });
+  });
+
   describe('find', () => {
     it('published 상태의 포스트들을 조회한다.', async () => {
       // given
