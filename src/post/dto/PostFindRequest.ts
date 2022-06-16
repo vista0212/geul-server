@@ -21,7 +21,7 @@ export class PostFindRequest extends SliceRequest {
       where.id = { $lt: this.lastId };
     }
 
-    where.status = PostStatus.PUBLISHED;
+    where.status = PostStatus.PUBLISH;
     where.publishedAt = { $lte: now };
 
     return where;

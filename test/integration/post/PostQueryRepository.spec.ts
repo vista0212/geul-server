@@ -47,7 +47,7 @@ describe('PostQueryRepository (int)', () => {
     it('published 상태의 포스트들을 조회한다.', async () => {
       // given
       await postFactory.createOne({
-        status: PostStatus.PUBLISHED,
+        status: PostStatus.PUBLISH,
         publishedAt: LocalDateTime.now(),
       });
 
@@ -58,7 +58,7 @@ describe('PostQueryRepository (int)', () => {
       );
 
       // then
-      expect(result[0].status).toBe(PostStatus.PUBLISHED);
+      expect(result[0].status).toBe(PostStatus.PUBLISH);
     });
 
     it('published 상태가 아닌 포스트는 조회하지 않는다.', async () => {
@@ -81,12 +81,12 @@ describe('PostQueryRepository (int)', () => {
     it('lastId보다 id가 작은 포스트들을 조회한다.', async () => {
       // given
       await postFactory.createOne({
-        status: PostStatus.PUBLISHED,
+        status: PostStatus.PUBLISH,
         publishedAt: LocalDateTime.now(),
       });
       await postFactory.createOne({
         id: 10,
-        status: PostStatus.PUBLISHED,
+        status: PostStatus.PUBLISH,
         publishedAt: LocalDateTime.now(),
       });
       const request = new PostFindRequest();
