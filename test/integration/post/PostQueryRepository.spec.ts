@@ -23,10 +23,9 @@ describe('PostQueryRepository (int)', () => {
     orm = module.get<MikroORM>(MikroORM);
     postFactory = new PostFactory(orm.em);
     postQueryRepository = module.get<PostQueryRepository>(PostQueryRepository);
-    await orm.getSchemaGenerator().updateSchema();
   });
 
-  beforeEach(async () => await orm.getSchemaGenerator().clearDatabase());
+  beforeEach(async () => await orm.getSchemaGenerator().refreshDatabase());
 
   afterAll(async () => await orm.close(true));
 

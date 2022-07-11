@@ -16,6 +16,9 @@ export class PostOneResponse {
   private readonly _body: string;
 
   @Exclude()
+  private readonly _introduction: string;
+
+  @Exclude()
   private readonly _status: PostStatus;
 
   @Exclude()
@@ -34,6 +37,7 @@ export class PostOneResponse {
     this._id = post.id;
     this._title = post.title;
     this._body = post.body;
+    this._introduction = post.introduction;
     this._status = post.status;
     this._viewCount = post.viewCount;
     this._publishedAt = post.publishedAt;
@@ -57,6 +61,12 @@ export class PostOneResponse {
   @Expose()
   get body(): string {
     return this._body;
+  }
+
+  @ApiProperty()
+  @Expose()
+  get introduction(): string {
+    return this._introduction;
   }
 
   @ApiProperty({ enum: PostStatus })

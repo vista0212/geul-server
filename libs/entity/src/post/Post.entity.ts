@@ -14,6 +14,9 @@ export class Post extends BaseTimeEntity {
   body: string;
 
   @Property()
+  introduction: string;
+
+  @Property()
   status: PostStatus;
 
   @Property()

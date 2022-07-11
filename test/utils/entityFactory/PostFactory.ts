@@ -10,6 +10,7 @@ export class PostFactory extends Factory<Post> {
       title: faker.datatype.string(),
       body: faker.datatype.string(),
       status: faker.helpers.arrayElement(Object.values(PostStatus)),
+      introduction: faker.datatype.string(),
       viewCount: 0,
       ...entity,
     } as Post);
