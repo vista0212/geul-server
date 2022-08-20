@@ -39,6 +39,7 @@ export class Post extends BaseTimeEntity {
   isPublish(now: LocalDateTime): boolean {
     return (
       this.status === PostStatus.PUBLISH &&
+      !!this.publishedAt &&
       DateTimeUtil.isEqualsOrBefore(this.publishedAt, now)
     );
   }

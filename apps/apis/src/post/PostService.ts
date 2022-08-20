@@ -1,4 +1,8 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PostCreateRequest } from './dto/PostCreateRequest';
 import { PostQueryRepository } from './PostQueryRepository';
 import { PostFindRequest } from './dto/PostFindRequest';
@@ -16,6 +20,10 @@ export class PostService {
     now = LocalDateTime.now(),
   ): Promise<Post> {
     const result = await this.postQueryRepository.findOne(request.id);
+
+    if (!result) {
+      throw new NotFoundException('존재하지 않는 게시글입니다.');
+    }
 
     if (!result.isPublish(now)) {
       throw new ForbiddenException('공개되지 않은 게시글입니다.');

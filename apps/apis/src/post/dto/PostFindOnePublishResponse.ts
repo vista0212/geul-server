@@ -12,7 +12,7 @@ export class PostFindOnePublishResponse {
   @Exclude()
   private readonly _body: string;
   @Exclude()
-  private readonly _publishedAt: LocalDateTime;
+  private readonly _publishedAt?: LocalDateTime;
   @Exclude()
   private readonly _viewCount: number;
 
@@ -42,10 +42,10 @@ export class PostFindOnePublishResponse {
     return this._body;
   }
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string' })
   @Expose()
-  get publishedAt(): string {
-    return DateTimeUtil.toString(this._publishedAt);
+  get publishedAt(): string | undefined {
+    return this._publishedAt && DateTimeUtil.toString(this._publishedAt);
   }
 
   @ApiProperty()

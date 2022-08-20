@@ -25,7 +25,7 @@ export class PostOneResponse {
   private readonly _viewCount: number;
 
   @Exclude()
-  private readonly _publishedAt: LocalDateTime;
+  private readonly _publishedAt?: LocalDateTime;
 
   @Exclude()
   private readonly _createdAt: LocalDateTime;
@@ -81,10 +81,10 @@ export class PostOneResponse {
     return this._viewCount;
   }
 
-  @ApiProperty()
+  @ApiProperty({ type: 'string' })
   @Expose()
-  get publishedAt(): string {
-    return DateTimeUtil.toString(this._publishedAt);
+  get publishedAt(): string | undefined {
+    return this._publishedAt && DateTimeUtil.toString(this._publishedAt);
   }
 
   @ApiProperty()

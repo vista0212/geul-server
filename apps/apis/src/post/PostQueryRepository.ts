@@ -12,7 +12,7 @@ export class PostQueryRepository {
     private readonly postRepository: EntityRepository<Post>,
   ) {}
 
-  async findOne(postId: number): Promise<Post> {
+  async findOne(postId: number): Promise<Post | null> {
     try {
       return await this.postRepository.findOne(postId);
     } catch (e) {

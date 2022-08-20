@@ -1,5 +1,6 @@
 import { EnvUtil } from '@app/env/EnvUtil';
 import { MikroOrmModuleOptions } from '@mikro-orm/nestjs';
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 
 const env = EnvUtil.getEnv().database;
 
@@ -10,6 +11,9 @@ const config: MikroOrmModuleOptions = {
   password: env.password,
   user: env.user,
   port: env.port,
+  metadataProvider: TsMorphMetadataProvider,
+  entities: ['dist/libs/entity/src/**/*.entity.js'],
+  entitiesTs: ['libs/entity/src/**/*.entity.ts'],
   pool: {
     min: 1,
     max: 5,

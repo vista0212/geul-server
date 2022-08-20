@@ -10,7 +10,7 @@ export class PostFindRequest extends SliceRequest {
   @ApiProperty()
   @IsInt()
   @IsOptional()
-  lastId?: number;
+  override lastId?: number;
 
   @ApiProperty()
   @IsArray()
