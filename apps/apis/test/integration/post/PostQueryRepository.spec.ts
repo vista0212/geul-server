@@ -38,7 +38,7 @@ describe('PostQueryRepository (int)', () => {
       const result = await postQueryRepository.findOne(post.id);
 
       // then
-      expect(result.id).toBe(post.id);
+      expect(result?.id).toBe(post.id);
     });
   });
 
