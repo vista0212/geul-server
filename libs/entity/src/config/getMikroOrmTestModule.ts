@@ -22,6 +22,6 @@ export function getMikroOrmTestModule(): DynamicModule {
       disableForeignKeys: true,
       createForeignKeyConstraints: false,
     },
-    debug: true,
+    debug: false,
   });
 }
