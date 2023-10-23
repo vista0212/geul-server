@@ -41,6 +41,12 @@
       ],
       "@app/web-common/*": [
         "libs/web-common/src/*"
+      ],
+      "@app/logger": [
+        "libs/logger/src"
+      ],
+      "@app/logger/*": [
+        "libs/logger/src/*"
       ]
     }
   }

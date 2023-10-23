@@ -89,7 +89,8 @@
     "moduleNameMapper": {
       "^@app/entity(|/.*)$": "<rootDir>/libs/entity/src/$1",
       "^@app/env(|/.*)$": "<rootDir>/libs/env/src/$1",
-      "^@app/web-common(|/.*)$": "<rootDir>/libs/web-common/src/$1"
+      "^@app/web-common(|/.*)$": "<rootDir>/libs/web-common/src/$1",
+      "^@app/logger(|/.*)$": "<rootDir>/libs/logger/src/$1"
     }
   },
   "mikro-orm": {
