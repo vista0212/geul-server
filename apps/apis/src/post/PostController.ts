@@ -21,19 +21,8 @@ export class PostController {
   async find(
     @Query() request: PostFindRequest,
   ): Promise<ResponseEntity<Slice<PostOneResponse> | string>> {
-    try {
-      const posts = await this.postService.find(request);
-      return ResponseEntity.OK_WITH(new Slice(request.sliceSize, posts));
-    } catch (e) {
-      console.error(
-        `error in GET /post: request=${JSON.stringify(
-          this.postService.find(request),
-        )}`,
-        e,
-      );
-
-      return ResponseEntity.ERROR_WITH(e.message);
-    }
+    const posts = await this.postService.find(request);
+    return ResponseEntity.OK_WITH(new Slice(request.sliceSize, posts));
   }
 
   @Post()
@@ -43,17 +32,8 @@ export class PostController {
   async create(
     @Body() request: PostCreateRequest,
   ): Promise<ResponseEntity<string>> {
-    try {
-      await this.postService.create(request);
-      return ResponseEntity.OK();
-    } catch (e) {
-      console.error(
-        `error in POST /post: request=${JSON.stringify(request)}`,
-        e,
-      );
-
-      return ResponseEntity.ERROR_WITH(e.message);
-    }
+    await this.postService.create(request);
+    return ResponseEntity.OK();
   }
 
   @Get('/:id')
@@ -63,15 +43,9 @@ export class PostController {
   async findOnePublish(
     @Param() request: PostFindOnePublishRequest,
   ): Promise<ResponseEntity<string | PostFindOnePublishResponse>> {
-    try {
-      const response = new PostFindOnePublishResponse(
-        await this.postService.findOnePublish(request),
-      );
-      return ResponseEntity.OK_WITH(response);
-    } catch (e) {
-      console.error(`error in GET /post/:id: ${JSON.stringify(request)}`, e);
-
-      return ResponseEntity.ERROR_WITH(e.message);
-    }
+    const response = new PostFindOnePublishResponse(
+      await this.postService.findOnePublish(request),
+    );
+    return ResponseEntity.OK_WITH(response);
   }
 }

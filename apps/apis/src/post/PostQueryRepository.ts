@@ -13,44 +13,17 @@ export class PostQueryRepository {
   ) {}
 
   async findOne(postId: number): Promise<Post | null> {
-    try {
-      return await this.postRepository.findOne(postId);
-    } catch (e) {
-      console.error(
-        `PostQueryRepository.findOne Exception: postId=${postId}`,
-        e,
-      );
-
-      throw e;
-    }
+    return await this.postRepository.findOne(postId);
   }
 
   async find(request: PostFindRequest, now: LocalDateTime): Promise<Post[]> {
-    try {
-      return await this.postRepository.find(request.toWhereFilter(now), {
-        limit: request.limit,
-        orderBy: { publishedAt: 'DESC' },
-      });
-    } catch (e) {
-      console.error(
-        `PostQueryRepository.find Exception: ${JSON.stringify(request)}`,
-        e,
-      );
-
-      throw e;
-    }
+    return await this.postRepository.find(request.toWhereFilter(now), {
+      limit: request.limit,
+      orderBy: { publishedAt: 'DESC' },
+    });
   }
 
   async create(post: Post): Promise<void> {
-    try {
-      await this.postRepository.persistAndFlush(post);
-    } catch (e) {
-      console.log(
-        `PostQueryRepository.create Exception: ${JSON.stringify(post)}`,
-        e,
-      );
-
-      throw e;
-    }
+    await this.postRepository.persistAndFlush(post);
   }
 }
