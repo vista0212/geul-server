@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { PostCreateRequest } from './dto/PostCreateRequest';
 import { PostQueryRepository } from './PostQueryRepository';
-import { PostFindRequest } from './dto/PostFindRequest';
 import { LocalDateTime } from '@js-joda/core';
 import { PostOneResponse } from './dto/PostOneResponse';
 import { Post } from '@app/entity/post/Post.entity';
@@ -33,10 +32,17 @@ export class PostService {
   }
 
   async find(
-    request: PostFindRequest,
+    limit: number,
+    keyword?: string,
+    lastId?: number,
     now = LocalDateTime.now(),
   ): Promise<PostOneResponse[]> {
-    const result = await this.postQueryRepository.find(request, now);
+    const result = await this.postQueryRepository.find(
+      limit,
+      now,
+      keyword,
+      lastId,
+    );
 
     return result.map((v) => new PostOneResponse(v));
   }

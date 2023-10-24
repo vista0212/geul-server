@@ -6,7 +6,6 @@ import { PostStatus } from '@app/entity/post/type/PostType';
 import { PostModule } from '@app/entity/post/PostModule';
 import { getMikroOrmTestModule } from '@app/entity/config/getMikroOrmTestModule';
 import { PostFactory } from '../../utils/entityFactory/PostFactory';
-import { PostFindRequest } from '../../../src/post/dto/PostFindRequest';
 import { LocalDateTime } from '@js-joda/core';
 
 describe('PostQueryRepository (int)', () => {
@@ -51,10 +50,7 @@ describe('PostQueryRepository (int)', () => {
       });
 
       // when
-      const result = await postQueryRepository.find(
-        new PostFindRequest(),
-        LocalDateTime.now(),
-      );
+      const result = await postQueryRepository.find(10, LocalDateTime.now());
 
       // then
       expect(result[0].status).toBe(PostStatus.PUBLISH);
@@ -68,10 +64,7 @@ describe('PostQueryRepository (int)', () => {
       });
 
       // when
-      const result = await postQueryRepository.find(
-        new PostFindRequest(),
-        LocalDateTime.now(),
-      );
+      const result = await postQueryRepository.find(10, LocalDateTime.now());
 
       // then
       expect(result).toHaveLength(0);
@@ -88,13 +81,13 @@ describe('PostQueryRepository (int)', () => {
         status: PostStatus.PUBLISH,
         publishedAt: LocalDateTime.now(),
       });
-      const request = new PostFindRequest();
-      request.lastId = 10;
 
       // when
       const result = await postQueryRepository.find(
-        request,
+        10,
         LocalDateTime.now(),
+        '',
+        10,
       );
 
       // then

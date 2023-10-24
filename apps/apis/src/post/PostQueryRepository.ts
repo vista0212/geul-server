@@ -2,8 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { Post } from '@app/entity/post/Post.entity';
 import { EntityRepository } from '@mikro-orm/postgresql';
-import { PostFindRequest } from './dto/PostFindRequest';
 import { LocalDateTime } from '@js-joda/core';
+import { FilterQuery } from '@mikro-orm/core';
+import { PostStatus } from '@app/entity/post/type/PostType';
 
 @Injectable()
 export class PostQueryRepository {
@@ -16,9 +17,30 @@ export class PostQueryRepository {
     return await this.postRepository.findOne(postId);
   }
 
-  async find(request: PostFindRequest, now: LocalDateTime): Promise<Post[]> {
-    return await this.postRepository.find(request.toWhereFilter(now), {
-      limit: request.limit,
+  async find(
+    limit: number,
+    now: LocalDateTime,
+    keyword?: string,
+    lastId?: number,
+  ): Promise<Post[]> {
+    const where: FilterQuery<Post> = {};
+
+    if (lastId) {
+      where.id = { $lt: lastId };
+    }
+
+    if (keyword) {
+      where.$or = [
+        { title: { $ilike: `%${keyword}%` } },
+        { body: { $ilike: `%${keyword}%` } },
+      ];
+    }
+
+    where.status = PostStatus.PUBLISH;
+    where.publishedAt = { $lte: now };
+
+    return await this.postRepository.find(where, {
+      limit: limit,
       orderBy: { publishedAt: 'DESC' },
     });
   }

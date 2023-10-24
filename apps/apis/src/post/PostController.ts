@@ -20,8 +20,13 @@ export class PostController {
   })
   async find(
     @Query() request: PostFindRequest,
-  ): Promise<ResponseEntity<Slice<PostOneResponse> | string>> {
-    const posts = await this.postService.find(request);
+  ): Promise<ResponseEntity<Slice<PostOneResponse>>> {
+    const posts = await this.postService.find(
+      request.limit,
+      request.keyword,
+      request.lastId,
+    );
+
     return ResponseEntity.OK_WITH(new Slice(request.sliceSize, posts));
   }
 
