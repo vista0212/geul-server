@@ -1,14 +1,11 @@
-import {
-  ForbiddenException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PostCreateRequest } from './dto/PostCreateRequest';
 import { PostQueryRepository } from './PostQueryRepository';
 import { LocalDateTime } from '@js-joda/core';
 import { PostOneResponse } from './dto/PostOneResponse';
 import { Post } from '@app/entity/post/Post.entity';
 import { PostFindOnePublishRequest } from './dto/PostFindOnePublishRequest';
+import { DomainError } from '@app/web-common/error/DomainError';
 
 @Injectable()
 export class PostService {
@@ -21,11 +18,11 @@ export class PostService {
     const result = await this.postQueryRepository.findOne(request.id);
 
     if (!result) {
-      throw new NotFoundException('존재하지 않는 게시글입니다.');
+      throw DomainError.NotFound({ message: '존재하지 않는 게시글입니다.' });
     }
 
     if (!result.isPublish(now)) {
-      throw new ForbiddenException('공개되지 않은 게시글입니다.');
+      throw DomainError.Forbidden({ message: '공개되지 않은 게시글입니다.' });
     }
 
     return result;
